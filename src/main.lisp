@@ -18,6 +18,9 @@
           (setf (nth operand3 program) (funcall f operand1 operand2))
           (values program (+ 4 stack-pointer))))
 
+       (no-op (program stack-pointer)
+         (values program (1+ stack-pointer)))
+
        (jump (program stack-pointer)
          (values program (nth (1+ stack-pointer) program)))
 
@@ -39,6 +42,12 @@
            ;; Halt, returning the state of the program
            ((= 0 (nth stack-pointer program))
             program)
+
+           ;; No-op
+           ((= 1 (nth stack-pointer program))
+            (multiple-value-bind (program stack-pointer)
+                                 (no-op program stack-pointer)
+                                 (run-instruction program stack-pointer)))
 
            ;; Add
            ((= 101 (nth stack-pointer program))

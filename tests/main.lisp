@@ -50,6 +50,6 @@
   (testing "should (equal '(301 1 1 5 0 1) (run-machine \"301,1,1,5,0,0\")) to be true"
     (ok (equal '(301 1 1 5 0 1) (run-machine "301,1,1,5,0,0")))))
 
-;(deftest test-if-else-1
-;  (testing "should (equal '(0) (run-machine \"55,12,0,13,6,10,1,0,0,16,2,0,0,16,0,55,0\")) to be true"
-;    (ok (equal '(0) (run-machine "55,12,0,13,6,10,1,0,0,16,2,0,0,16,0,55,0")))))
+(deftest test-noop-1
+  (testing "should (equal '(1 1 1 1 1 101 0 0 10 0 2) (run-machine \"1,1,1,1,1,101,0,0,10,0,2\")) to be true"
+    (ok (equal '(1 1 1 1 1 101 0 0 10 0 2) (run-machine "1,1,1,1,1,101,0,0,10,0,2")))))
