@@ -1,6 +1,6 @@
 (defpackage turing
   (:use :cl)
-  (:export #:werk))
+  (:export #:run-machine))
 (in-package :turing)
 
 ;;;
@@ -8,7 +8,7 @@
 ;; list must be resizable and populated with empty values
 ;;;
 
-(defun werk (stream)
+(defun run-machine (stream)
   ; Main loop, define op-codes and functions
   (labels
       ((calc (f program stack-pointer)
@@ -81,5 +81,3 @@
 
     (let ((program (mapcar #'parse-integer (uiop:split-string stream :separator ","))))
       (run-instruction program))))
-
-(werk "201,7,6,2,4,1,0,104,2,3,4,0")
