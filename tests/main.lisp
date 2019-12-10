@@ -53,3 +53,43 @@
 (deftest test-noop-1
   (testing "should (equal '(1 1 1 1 1 101 0 0 10 0 2) (run-machine \"1,1,1,1,1,101,0,0,10,0,2\")) to be true"
     (ok (equal '(1 1 1 1 1 101 0 0 10 0 2) (run-machine "1,1,1,1,1,101,0,0,10,0,2")))))
+
+(deftest test-gt-1
+  (testing "should (equal '(302 0 1 1 0) (run-machine \"302,0,1,3,0\")) to be true"
+    (ok (equal '(302 0 1 1 0) (run-machine "302,0,1,3,0")))))
+
+(deftest test-gt-2
+  (testing "should (equal '(302 5 6 0 0 1 2) (run-machine \"302,5,6,3,0,1,2\")) to be true"
+    (ok (equal '(302 5 6 0 0 1 2) (run-machine "302,5,6,3,0,1,2")))))
+
+(deftest test-gte-1
+  (testing "should (equal '(303 0 1 1 0) (run-machine \"303,0,1,3,0\")) to be true"
+    (ok (equal '(303 0 1 1 0) (run-machine "303,0,1,3,0")))))
+
+(deftest test-gte-2
+  (testing "should (equal '(303 0 0 1 0) (run-machine \"303,0,0,3,0\")) to be true"
+    (ok (equal '(303 0 0 1 0) (run-machine "303,0,0,3,0")))))
+
+(deftest test-gte-3
+  (testing "should (equal '(303 5 6 0 0 1 2) (run-machine \"303,5,6,3,0,1,2\")) to be true"
+    (ok (equal '(303 5 6 0 0 1 2) (run-machine "303,5,6,3,0,1,2")))))
+
+(deftest test-lt-1
+  (testing "should (equal '(304 1 0 1 0) (run-machine \"304,2,0,1,0\")) to be true"
+    (ok (equal '(304 1 0 1 0) (run-machine "304,2,0,1,0")))))
+
+(deftest test-lt-2
+  (testing "should (equal '(304 5 6 1 0 1 2) (run-machine \"304,5,6,3,0,1,2\")) to be true"
+    (ok (equal '(304 5 6 1 0 1 2) (run-machine "304,5,6,3,0,1,2")))))
+
+(deftest test-lte-1
+  (testing "should (equal '(305 1 0 1 0) (run-machine \"305,1,0,3,0\")) to be true"
+    (ok (equal '(305 1 0 1 0) (run-machine "305,1,0,3,0")))))
+
+(deftest test-lte-2
+  (testing "should (equal '(305 0 0 1 0) (run-machine \"305,0,0,3,0\")) to be true"
+    (ok (equal '(305 0 0 1 0) (run-machine "305,0,0,3,0")))))
+
+(deftest test-lte-3
+  (testing "should (equal '(305 6 5 0 0 1 2) (run-machine \"305,6,5,3,0,1,2\")) to be true"
+    (ok (equal '(305 6 5 0 0 1 2) (run-machine "305,6,5,3,0,1,2")))))

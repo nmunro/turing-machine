@@ -11,82 +11,106 @@
 (defun run-machine (stream)
   ; Main loop, define op-codes and functions
   (labels
-      ((calc (f program stack-pointer)
-        (let ((operand1 (nth (nth (+ 1 stack-pointer) program) program))
-              (operand2 (nth (nth (+ 2 stack-pointer) program) program))
-              (operand3 (nth (+ 3 stack-pointer) program)))
+      ((calc (f program program-counter)
+        (let ((operand1 (nth (nth (+ 1 program-counter) program) program))
+              (operand2 (nth (nth (+ 2 program-counter) program) program))
+              (operand3 (nth (+ 3 program-counter) program)))
           (setf (nth operand3 program) (funcall f operand1 operand2))
-          (values program (+ 4 stack-pointer))))
+          (values program (+ 4 program-counter))))
 
-       (no-op (program stack-pointer)
-         (values program (1+ stack-pointer)))
+       (no-op (program program-counter)
+         (values program (1+ program-counter)))
 
-       (jump (program stack-pointer)
-         (values program (nth (1+ stack-pointer) program)))
+       (jump (program program-counter)
+         (values program (nth (1+ program-counter) program)))
 
-       (jump-if (program stack-pointer)
+       (jump-if (program program-counter)
          0)
 
-       (jump-nif (program stack-pointer)
+       (jump-nif (program program-counter)
          0)
 
-       (equals (program stack-pointer)
-         (let ((operand1 (nth (nth (+ 1 stack-pointer) program) program))
-               (operand2 (nth (nth (+ 2 stack-pointer) program) program))
-               (operand3 (nth (+ 3 stack-pointer) program)))
-           (setf (nth operand3 program) (if (= operand1 operand2) 1 0))
-           (values program (+ 4 stack-pointer))))
+       (equals (f program program-counter)
+         (let ((operand1 (nth (nth (+ 1 program-counter) program) program))
+               (operand2 (nth (nth (+ 2 program-counter) program) program))
+               (operand3 (nth (+ 3 program-counter) program)))
+           (setf (nth operand3 program) (if (funcall f operand1 operand2) 1 0))
+           (values program (+ 4 program-counter))))
 
-       (run-instruction (program &optional (stack-pointer 0))
+       (run-instruction (program &optional (program-counter 0))
          (cond
            ;; Halt, returning the state of the program
-           ((= 0 (nth stack-pointer program))
+           ((= 0 (nth program-counter program))
             program)
 
            ;; No-op
-           ((= 1 (nth stack-pointer program))
-            (multiple-value-bind (program stack-pointer)
-                                 (no-op program stack-pointer)
-                                 (run-instruction program stack-pointer)))
+           ((= 1 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (no-op program program-counter)
+                                 (run-instruction program program-counter)))
 
            ;; Add
-           ((= 101 (nth stack-pointer program))
-            (multiple-value-bind (program stack-pointer)
-                                 (calc #'+ program stack-pointer)
-                                 (run-instruction program stack-pointer)))
+           ((= 101 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (calc #'+ program program-counter)
+                                 (run-instruction program program-counter)))
 
            ;; Multiply
-           ((= 102 (nth stack-pointer program))
-            (multiple-value-bind (program stack-pointer)
-                                 (calc #'* program stack-pointer)
-                                 (run-instruction program stack-pointer)))
+           ((= 102 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (calc #'* program program-counter)
+                                 (run-instruction program program-counter)))
 
            ;; Subtract
-           ((= 103 (nth stack-pointer program))
-            (multiple-value-bind (program stack-pointer)
-                                 (calc #'- program stack-pointer)
-                                 (run-instruction program stack-pointer)))
+           ((= 103 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (calc #'- program program-counter)
+                                 (run-instruction program program-counter)))
 
            ;; Divide
-           ((= 104 (nth stack-pointer program))
-            (multiple-value-bind (program stack-pointer)
-                                 (calc #'/ program stack-pointer)
-                                 (run-instruction program stack-pointer)))
+           ((= 104 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (calc #'/ program program-counter)
+                                 (run-instruction program program-counter)))
 
-           ;;  Program flow
-           ((= 201  (nth stack-pointer program))
-            (multiple-value-bind (program stack-pointer)
-                                 (jump program stack-pointer)
-                                 (run-instruction program stack-pointer)))
+           ;; Jump
+           ((= 201 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (jump program program-counter)
+                                 (run-instruction program program-counter)))
 
-           ; Equality
-           ((= 301 (nth stack-pointer program))
-            (multiple-value-bind (program stack-pointer)
-                                 (equals program stack-pointer)
-                                 (run-instruction program stack-pointer)))
+           ;; equal
+           ((= 301 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (equals #'= program program-counter)
+                                 (run-instruction program program-counter)))
+
+           ;; Greater than
+           ((= 302 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (equals #'> program program-counter)
+                                 (run-instruction program program-counter)))
+
+           ;; Greater than equal to
+           ((= 303 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (equals #'>= program program-counter)
+                                 (run-instruction program program-counter)))
+
+           ;; Less than
+           ((= 304 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (equals #'< program program-counter)
+                                 (run-instruction program program-counter)))
+
+           ;; Less than equal to
+           ((= 305 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (equals #'<= program program-counter)
+                                 (run-instruction program program-counter)))
 
            ; Errors
-           (T (format nil "~A program error" (nth stack-pointer program))))))
+           (T (format nil "~A program error" (nth program-counter program))))))
 
     (let ((program (mapcar #'parse-integer (uiop:split-string stream :separator ","))))
       (run-instruction program))))
