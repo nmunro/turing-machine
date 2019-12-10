@@ -93,3 +93,19 @@
 (deftest test-lte-3
   (testing "should (equal '(305 6 5 0 0 1 2) (run-machine \"305,6,5,3,0,1,2\")) to be true"
     (ok (equal '(305 6 5 0 0 1 2) (run-machine "305,6,5,3,0,1,2")))))
+
+(deftest test-jif-1
+  (testing "should (equal '(202 1 5 10 6 101 1 2 4 0 102 1 2 4 0) (run-machine \"202,1,5,0,0,101,1,2,3,0,102,1,2,3,0\")) to be true"
+    (ok (equal '(202 1 5 10 6 101 1 2 4 0 102 1 2 4 0) (run-machine "202,1,5,10,6,101,1,2,4,0,102,1,2,4,0")))))
+
+(deftest test-jif-2
+  (testing "should (equal '(202 0 5 10 0 101 1 2 4 0 102 1 2 4 0) (run-machine \"202,0,5,10,5,101,1,2,4,0,102,1,2,4,0\")) to be true"
+    (ok (equal '(202 0 5 10 0 101 1 2 4 0 102 1 2 4 0) (run-machine "202,0,5,10,5,101,1,2,4,0,102,1,2,4,0")))))
+
+(deftest test-jnif-1
+  (testing "should (equal '(203 1 5 10 5 101 1 2 4 0 102 1 2 4 0) (run-machine \"203,1,5,0,0,101,1,2,3,0,102,1,2,3,0\")) to be true"
+    (ok (equal '(203 1 5 10 5 101 1 2 4 0 102 1 2 4 0) (run-machine "203,1,5,10,5,101,1,2,4,0,102,1,2,4,0")))))
+
+(deftest test-jnif-2
+  (testing "should (equal '(203 0 5 5 0 101 1 2 4 0 102 1 2 4 0) (run-machine \"203,0,5,10,5,101,1,2,4,0,102,1,2,4,0\")) to be true"
+    (ok (equal '(203 0 5 10 5 101 1 2 4 0 102 1 2 4 0) (run-machine "203,0,5,10,5,101,1,2,4,0,102,1,2,4,0")))))

@@ -24,11 +24,17 @@
        (jump (program program-counter)
          (values program (nth (1+ program-counter) program)))
 
-       (jump-if (program program-counter)
-         0)
+       (jif (program program-counter)
+         (let ((operand1 (nth (+ 1 program-counter) program))
+               (operand2 (nth (+ 2 program-counter) program))
+               (operand3 (nth (+ 3 program-counter) program)))
+           (values program (if (= 1 operand1) operand2 operand3))))
 
-       (jump-nif (program program-counter)
-         0)
+       (jnif (program program-counter)
+         (let ((operand1 (nth (+ 1 program-counter) program))
+               (operand2 (nth (+ 2 program-counter) program))
+               (operand3 (nth (+ 3 program-counter) program)))
+           (values program (if (= 0 operand1) operand2 operand3))))
 
        (equals (f program program-counter)
          (let ((operand1 (nth (nth (+ 1 program-counter) program) program))
@@ -77,6 +83,18 @@
            ((= 201 (nth program-counter program))
             (multiple-value-bind (program program-counter)
                                  (jump program program-counter)
+                                 (run-instruction program program-counter)))
+
+           ;; Jump if
+           ((= 202 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (jif program program-counter)
+                                 (run-instruction program program-counter)))
+
+           ;; Jump if not
+           ((= 203 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (jnif program program-counter)
                                  (run-instruction program program-counter)))
 
            ;; equal
