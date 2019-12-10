@@ -109,3 +109,11 @@
 (deftest test-jnif-2
   (testing "should (equal '(203 0 5 5 0 101 1 2 4 0 102 1 2 4 0) (run-machine \"203,0,5,10,5,101,1,2,4,0,102,1,2,4,0\")) to be true"
     (ok (equal '(203 0 5 10 5 101 1 2 4 0 102 1 2 4 0) (run-machine "203,0,5,10,5,101,1,2,4,0,102,1,2,4,0")))))
+
+(deftest test-incr-1
+  (testing "should (equal '(105 1 0) (run-machine \"105,0,0\")) to be true"
+    (ok (equal '(105 1 0) (run-machine "105,0,0")))))
+
+(deftest test-decr-1
+  (testing "should (equal '(106 -1 0) (run-machine \"106,0,0\")) to be true"
+    (ok (equal '(106 -1 0) (run-machine "106,0,0")))))

@@ -24,6 +24,16 @@
        (jump (program program-counter)
          (values program (nth (1+ program-counter) program)))
 
+       (incr (program program-counter)
+         (let ((operand (nth (+ 1 program-counter) program)))
+           (setf (nth (1+ program-counter) program) (1+ operand))
+           (values program (+ 2 program-counter))))
+
+       (decr (program program-counter)
+         (let ((operand (nth (+ 1 program-counter) program)))
+           (setf (nth (1+ program-counter) program) (1- operand))
+           (values program (+ 2 program-counter))))
+
        (jif (program program-counter)
          (let ((operand1 (nth (+ 1 program-counter) program))
                (operand2 (nth (+ 2 program-counter) program))
@@ -79,6 +89,18 @@
                                  (calc #'/ program program-counter)
                                  (run-instruction program program-counter)))
 
+           ;; Incr
+           ((= 105 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (incr program program-counter)
+                                 (run-instruction program program-counter)))
+
+           ;; Decr
+           ((= 106 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (decr program program-counter)
+                                 (run-instruction program program-counter)))
+
            ;; Jump
            ((= 201 (nth program-counter program))
             (multiple-value-bind (program program-counter)
@@ -132,3 +154,5 @@
 
     (let ((program (mapcar #'parse-integer (uiop:split-string stream :separator ","))))
       (run-instruction program))))
+
+(run-machine "105,0,0")
