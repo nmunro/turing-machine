@@ -21,9 +21,6 @@
        (no-op (program program-counter)
          (values program (1+ program-counter)))
 
-       (jump (program program-counter)
-         (values program (nth (1+ program-counter) program)))
-
        (incr (program program-counter)
          (let ((operand (nth (+ 1 program-counter) program)))
                (setf (nth operand program) (1+ (nth operand program)))
@@ -33,6 +30,9 @@
          (let ((operand (nth (+ 1 program-counter) program)))
            (setf (nth operand program) (1- (nth operand program)))
            (values program (+ 2 program-counter))))
+
+       (jump (program program-counter)
+         (values program (nth (1+ program-counter) program)))
 
        (jif (program program-counter)
          (let ((operand1 (nth (+ 1 program-counter) program))
