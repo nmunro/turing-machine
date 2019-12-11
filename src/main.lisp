@@ -26,12 +26,12 @@
 
        (incr (program program-counter)
          (let ((operand (nth (+ 1 program-counter) program)))
-           (setf (nth (1+ program-counter) program) (1+ operand))
-           (values program (+ 2 program-counter))))
+               (setf (nth operand program) (1+ (nth operand program)))
+               (values program (+ 2 program-counter))))
 
        (decr (program program-counter)
          (let ((operand (nth (+ 1 program-counter) program)))
-           (setf (nth (1+ program-counter) program) (1- operand))
+           (setf (nth operand program) (1- (nth operand program)))
            (values program (+ 2 program-counter))))
 
        (jif (program program-counter)
@@ -155,4 +155,4 @@
     (let ((program (mapcar #'parse-integer (uiop:split-string stream :separator ","))))
       (run-instruction program))))
 
-(run-machine "105,0,0")
+(run-machine "201,3,0,105,2,0")

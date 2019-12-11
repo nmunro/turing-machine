@@ -50,6 +50,10 @@
   (testing "should (equal '(301 1 1 5 0 1) (run-machine \"301,1,1,5,0,0\")) to be true"
     (ok (equal '(301 1 1 5 0 1) (run-machine "301,1,1,5,0,0")))))
 
+(deftest test-equality-2
+  (testing "should (equal '(301 1 2 5 0 1) (run-machine \"301,1,2,5,0,0\")) to be true"
+    (ok (equal '(301 1 2 5 0 0) (run-machine "301,1,2,5,0,0")))))
+
 (deftest test-noop-1
   (testing "should (equal '(1 1 1 1 1 101 0 0 10 0 2) (run-machine \"1,1,1,1,1,101,0,0,10,0,2\")) to be true"
     (ok (equal '(1 1 1 1 1 101 0 0 10 0 2) (run-machine "1,1,1,1,1,101,0,0,10,0,2")))))
@@ -111,9 +115,21 @@
     (ok (equal '(203 0 5 10 5 101 1 2 4 0 102 1 2 4 0) (run-machine "203,0,5,10,5,101,1,2,4,0,102,1,2,4,0")))))
 
 (deftest test-incr-1
-  (testing "should (equal '(105 1 0) (run-machine \"105,0,0\")) to be true"
-    (ok (equal '(105 1 0) (run-machine "105,0,0")))))
+  (testing "should (equal '(105 2 0) (run-machine \"105,1,0\")) to be true"
+    (ok (equal '(105 2 0) (run-machine "105,1,0")))))
+
+(deftest test-incr-2
+  (testing "should (equal '(201 3 1 105 2 0) (run-machine \"201,3,0,105,2,0\")) to be true"
+    (ok (equal '(201 3 1 105 2 0) (run-machine "201,3,0,105,2,0")))))
 
 (deftest test-decr-1
-  (testing "should (equal '(106 -1 0) (run-machine \"106,0,0\")) to be true"
-    (ok (equal '(106 -1 0) (run-machine "106,0,0")))))
+  (testing "should (equal '(106 2 1) (run-machine \"106,2,1\")) to be true"
+    (ok (equal '(106 2 0) (run-machine "106,2,1")))))
+
+(deftest test-decr-2
+  (testing "should (equal '(201 3 -1 106 2 0) (run-machine \"201,3,0,106,2,0\")) to be true"
+    (ok (equal '(201 3 -1 106 2 0) (run-machine "201,3,0,106,2,0")))))
+
+(deftest test-loop-1
+  (testing "should (equal '(201 4 10 10 301 2 3 9 203 1 12 16 105 2 201 4 0) (run-machine \"201,4,0,10,301,2,3,9,203,0,12,16,105,2,201,4,0\")) to be true"
+    (ok (equal '(201 4 10 10 301 2 3 9 203 1 12 16 105 2 201 4 0) (run-machine "201,4,0,10,301,2,3,9,203,0,12,16,105,2,201,4,0")))))
