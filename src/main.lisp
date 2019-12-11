@@ -154,5 +154,3 @@
 
     (let ((program (mapcar #'parse-integer (uiop:split-string stream :separator ","))))
       (run-instruction program))))
-
-(run-machine "201,3,0,105,2,0")
