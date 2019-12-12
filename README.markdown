@@ -35,10 +35,10 @@ Ensure that you have sbcl installed and available in your path and the following
 
 These are the implemented op-codes in the virtual machine, these are classified by type.
 
-Numbers less than 100 are reserved for halting and no-op.
-Numbers beginning with 10 are arithmetic operations.
-Numbers beginning with 20 are program flow.
-Numbers beginning with 30 are comparison/equality operators.
+* Numbers less than 100 are reserved for halting and no-op.
+* Numbers beginning with 10 are arithmetic operations.
+* Numbers beginning with 20 are program flow.
+* Numbers beginning with 30 are comparison/equality operators.
 
 | Number | Name | Arguements |
 |---|------------------|-----------------|
