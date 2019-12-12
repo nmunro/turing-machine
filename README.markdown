@@ -8,6 +8,8 @@ Turing is written in Common Lisp using the SBCL interpreter, other interpreters 
 To use simply call the function `run-machine` in the `turing` namespace, an example is shown below.
 
 Prorgrams are strings enclosed in double quotes with operations and operands separated by commas, spaces are not permitted in a program, only numbers and commas.
+There is a program counter that one can manipulate with the jump commands, under normal conditions the op-code under the program counter will be executed.
+The program counter will then be advanced by the number of parameters the op-code accepts + 1, so if an op-code has 3 parameters the program counter will advance by 4.
 
       $ cd turing-machine
       $ sbcl
