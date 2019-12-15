@@ -9,7 +9,7 @@
 ;;;
 
 (defun run-machine (stream)
-  ; Main loop, define op-codes and functions
+  "Main loop, define op-codes and functions"
   (labels
       ((calc (f program program-counter)
         (let ((operand1 (nth (nth (+ 1 program-counter) program) program))
