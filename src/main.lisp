@@ -40,12 +40,6 @@
                (operand3 (nth (+ 3 program-counter) program)))
            (values program (if (= 1 operand1) operand2 operand3))))
 
-       (vm-jnif (program program-counter)
-         (let ((operand1 (nth (+ 1 program-counter) program))
-               (operand2 (nth (+ 2 program-counter) program))
-               (operand3 (nth (+ 3 program-counter) program)))
-           (values program (if (= 0 operand1) operand2 operand3))))
-
        (vm-equals (f program program-counter)
          (let ((operand1 (nth (nth (+ 1 program-counter) program) program))
                (operand2 (nth (nth (+ 2 program-counter) program) program))
