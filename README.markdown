@@ -42,24 +42,23 @@ These are the implemented op-codes in the virtual machine, these are classified 
 * Numbers beginning with 20 are program flow.
 * Numbers beginning with 30 are comparison/equality operators.
 
-| Number | Name | Arguements |
-|---|------------------|-----------------|
-| 0 | Halt             | - |
-| 1 | Noop             | - |
-|101| Add              |3: position of first number, position of second number, position to write result to|
-|102|Multiply          |3: position of first number, position of second number, position to write result to|
-|103|Subtract          |3: position of first number, position of second number, position to write result to|
-|104|Divide            |3: position of first number, position of second number, position to write result to|
-|105|Increment         |1: position of number to increase by 1|
-|106|Decrement         |1: position of number to decrement by 1|
-|201|Jump              |1: position to jump to|
-|202|Jump if           |3: boolean check, position if true, position if false|
-|203|Jump if not       |3: boolean check, position if true, position if false|
-|301|Equals            |3: position of first number, position of second number, position to write result to|
-|302|Greater than      |3: position of first number, position of second number, position to write result to|
-|303|Greater than equal|3: position of first number, position of second number, position to write result to|
-|304|Less than         |3: position of first number, position of second number, position to write result to|
-|305|Less than equal   |3: position of first number, position of second number, position to write result to|
-
-
-
+| Number | Name             | Arguements                                                                        |
+|--------|------------------|-----------------------------------------------------------------------------------|
+|0       |Halt              | -                                                                                 |
+|1       |Noop              | -                                                                                 |
+|101     |Add               |3: position of first number, position of second number, position to write result to|
+|102     |Multiply          |3: position of first number, position of second number, position to write result to|
+|103     |Subtract          |3: position of first number, position of second number, position to write result to|
+|104     |Divide            |3: position of first number, position of second number, position to write result to|
+|105     |Increment         |1: position of number to increase by 1                                             |
+|106     |Decrement         |1: position of number to decrement by 1                                            |
+|201     |Jump              |1: position to jump to                                                             |
+|202     |Jump if           |3: boolean check, position if true, position if false                              |
+|301     |Equals            |3: position of first number, position of second number, position to write result to|
+|302     |Greater than      |3: position of first number, position of second number, position to write result to|
+|303     |Greater than equal|3: position of first number, position of second number, position to write result to|
+|304     |Less than         |3: position of first number, position of second number, position to write result to|
+|305     |Less than equal   |3: position of first number, position of second number, position to write result to|
+|306     |And               |3: position of first number, position of second number, position to write result to|
+|307     |Or                |3: position of first number, position of second number, position to write result to|
+|308     |Not               |2: position of first number, position to write result to                           |
