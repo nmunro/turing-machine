@@ -47,6 +47,26 @@
            (setf (nth operand3 program) (if (funcall f operand1 operand2) 1 0))
            (values program (+ 4 program-counter))))
 
+       (vm-and (program program-counter)
+         (let ((operand1 (nth (nth (+ 1 program-counter) program) program))
+               (operand2 (nth (nth (+ 2 program-counter) program) program))
+               (operand3 (nth (+ 3 program-counter) program)))
+           (setf (nth operand3 program) (if (and (> operand1 0) (> operand2 0)) 1 0))
+           (values program (+ 4 program-counter))))
+
+       (vm-or (program program-counter)
+         (let ((operand1 (nth (nth (+ 1 program-counter) program) program))
+               (operand2 (nth (nth (+ 2 program-counter) program) program))
+               (operand3 (nth (+ 3 program-counter) program)))
+           (setf (nth operand3 program) (if (or (> operand1 0) (> operand2 0)) 1 0))
+           (values program (+ 4 program-counter))))
+
+       (vm-not (program program-counter)
+         (let ((operand1 (nth (nth (+ 1 program-counter) program) program))
+               (operand2 (nth (+ 2 program-counter) program)))
+           (setf (nth operand2 program) (if (eq operand1 0) 1 0))
+           (values program (+ 3 program-counter))))
+
        (run-instruction (program &optional (program-counter 0))
          (cond
            ;; Halt, returning the state of the program
@@ -107,12 +127,6 @@
                                  (vm-jif program program-counter)
                                  (run-instruction program program-counter)))
 
-           ;; Jump if not
-           ((= 203 (nth program-counter program))
-            (multiple-value-bind (program program-counter)
-                                 (vm-jnif program program-counter)
-                                 (run-instruction program program-counter)))
-
            ;; equal
            ((= 301 (nth program-counter program))
             (multiple-value-bind (program program-counter)
@@ -141,6 +155,24 @@
            ((= 305 (nth program-counter program))
             (multiple-value-bind (program program-counter)
                                  (vm-equals #'<= program program-counter)
+                                 (run-instruction program program-counter)))
+
+           ;; Boolean and
+           ((= 306 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (vm-and program program-counter)
+                                 (run-instruction program program-counter)))
+
+           ;; Boolean or
+           ((= 307 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (vm-or program program-counter)
+                                 (run-instruction program program-counter)))
+
+           ;; Boolean not
+           ((= 308 (nth program-counter program))
+            (multiple-value-bind (program program-counter)
+                                 (vm-not program program-counter)
                                  (run-instruction program program-counter)))
 
            ; Errors

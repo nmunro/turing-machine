@@ -106,14 +106,6 @@
   (testing "should (equal '(202 0 5 10 0 101 1 2 4 0 102 1 2 4 0) (run-machine \"202,0,5,10,5,101,1,2,4,0,102,1,2,4,0\")) to be true"
     (ok (equal '(202 0 5 10 0 101 1 2 4 0 102 1 2 4 0) (run-machine "202,0,5,10,5,101,1,2,4,0,102,1,2,4,0")))))
 
-(deftest test-jnif-1
-  (testing "should (equal '(203 1 5 10 5 101 1 2 4 0 102 1 2 4 0) (run-machine \"203,1,5,0,0,101,1,2,3,0,102,1,2,3,0\")) to be true"
-    (ok (equal '(203 1 5 10 5 101 1 2 4 0 102 1 2 4 0) (run-machine "203,1,5,10,5,101,1,2,4,0,102,1,2,4,0")))))
-
-(deftest test-jnif-2
-  (testing "should (equal '(203 0 5 5 0 101 1 2 4 0 102 1 2 4 0) (run-machine \"203,0,5,10,5,101,1,2,4,0,102,1,2,4,0\")) to be true"
-    (ok (equal '(203 0 5 10 5 101 1 2 4 0 102 1 2 4 0) (run-machine "203,0,5,10,5,101,1,2,4,0,102,1,2,4,0")))))
-
 (deftest test-incr-1
   (testing "should (equal '(105 2 0) (run-machine \"105,1,0\")) to be true"
     (ok (equal '(105 2 0) (run-machine "105,1,0")))))
@@ -131,5 +123,46 @@
     (ok (equal '(201 3 -1 106 2 0) (run-machine "201,3,0,106,2,0")))))
 
 (deftest test-loop-1
-  (testing "should (equal '(201 4 10 10 301 2 3 9 203 1 12 16 105 2 201 4 0) (run-machine \"201,4,0,10,301,2,3,9,203,0,12,16,105,2,201,4,0\")) to be true"
-    (ok (equal '(201 4 10 10 301 2 3 9 203 1 12 16 105 2 201 4 0) (run-machine "201,4,0,10,301,2,3,9,203,0,12,16,105,2,201,4,0")))))
+  (testing "should (equal '(201 4 10 10 301 2 3 9 203 1 12 16 105 2 201 4 0) (run-machine \"201,4,0,10,301,2,3,9,202,0,16,12,105,2,201,4,0\")) to be true"
+    (ok (equal '(201 4 10 10 301 2 3 9 202 1 16 12 105 2 201 4 0) (run-machine "201,4,0,10,301,2,3,9,202,0,16,12,105,2,201,4,0")))))
+
+(deftest test-not-1
+  (testing "should (equal '(308 1 4 0 0) (run-machine \"308,1,4,0,9\")) to be true"
+    (ok (equal '(308 1 4 0 0) (run-machine "308,1,4,0,9")))))
+
+(deftest test-not-2
+  (testing "should (equal '(308 3 4 0 1) (run-machine \"308,3,4,0,9\")) to be true"
+    (ok (equal '(308 3 4 0 1) (run-machine "308,3,4,0,9")))))
+
+(deftest test-and-1
+  (testing "should (equal '(306 5 6 7 0 0 0 0) (run-machine \"306,5,6,7,0,0,0,0\")) to be true"
+    (ok (equal '(306 5 6 7 0 0 0 0) (run-machine "306,5,6,7,0,0,0,0")))))
+
+(deftest test-and-2
+  (testing "should (equal '(306 5 6 7 0 1 0 0) (run-machine \"306,5,6,7,0,1,0,0\")) to be true"
+    (ok (equal '(306 5 6 7 0 1 0 0) (run-machine "306,5,6,7,0,1,0,0")))))
+
+(deftest test-and-3
+  (testing "should (equal '(306 5 6 7 0 0 1 0) (run-machine \"306,5,6,7,0,0,1,0\")) to be true"
+    (ok (equal '(306 5 6 7 0 0 1 0) (run-machine "306,5,6,7,0,0,1,0")))))
+
+(deftest test-and-4
+  (testing "should (equal '(306 5 6 7 0 1 1 1) (run-machine \"306,5,6,7,0,1,1,0\")) to be true"
+    (ok (equal '(306 5 6 7 0 1 1 1) (run-machine "306,5,6,7,0,1,1,0")))))
+
+(deftest test-or-1
+  (testing "should (equal '(306 5 6 7 0 0 0 0) (run-machine \"306,5,6,7,0,0,0,0\")) to be true"
+    (ok (equal '(307 5 6 7 0 0 0 0) (run-machine "307,5,6,7,0,0,0,0")))))
+
+(deftest test-or-2
+  (testing "should (equal '(306 5 6 7 0 1 0 0) (run-machine \"306,5,6,7,0,1,0,0\")) to be true"
+    (ok (equal '(307 5 6 7 0 1 0 1) (run-machine "307,5,6,7,0,1,0,0")))))
+
+(deftest test-or-3
+  (testing "should (equal '(306 5 6 7 0 0 1 0) (run-machine \"306,5,6,7,0,0,1,0\")) to be true"
+    (ok (equal '(307 5 6 7 0 0 1 1) (run-machine "307,5,6,7,0,0,1,0")))))
+
+(deftest test-or-4
+  (testing "should (equal '(306 5 6 7 0 1 1 1) (run-machine \"306,5,6,7,0,1,1,0\")) to be true"
+    (ok (equal '(307 5 6 7 0 1 1 1) (run-machine "307,5,6,7,0,1,1,0")))))
+
