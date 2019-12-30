@@ -166,3 +166,6 @@
   (testing "should (equal '(306 5 6 7 0 1 1 1) (run-machine \"306,5,6,7,0,1,1,0\")) to be true"
     (ok (equal '(307 5 6 7 0 1 1 1) (run-machine "307,5,6,7,0,1,1,0")))))
 
+(deftest test-resize-program-1
+  (testing "should (equal '(201 2 101 1 1 25 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 4) (run-machine \"201,2,101,1,1,25,0\")) to be true"
+    (ok (equal '(201 2 101 1 1 25 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 4) (run-machine "201,2,101,1,1,25,0")))))
