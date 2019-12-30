@@ -7,10 +7,7 @@
   "Main loop, define op-codes and functions"
   (labels
       ((vm-resize-list (program new-size)
-         (let ((new-program (append program (make-list (1+ new-size) :initial-element 1))))
-           (format t "Orig: ~{~A~^, ~}~%" program)
-           (format t "New: ~{~A~^, ~}~%" new-program)
-           new-program))
+         (append program (make-list (1+ new-size) :initial-element 1)))
 
        (vm-initial-resize (program program-counter addresses values)
          ; Need to get the sum of addresses and values to ensure there's enough
@@ -214,7 +211,7 @@
                                  (vm-not program program-counter)
                                  (run-instruction program program-counter)))
 
-           ; Errors
+           ;; Errors
            (T (format nil "~A program error" (nth program-counter program))))))
 
     (let ((program (mapcar #'parse-integer (uiop:split-string stream :separator ","))))
